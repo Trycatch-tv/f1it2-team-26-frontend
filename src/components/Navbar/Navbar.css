@@ -1,0 +1,43 @@
+.navbar-container{
+    width: 100%;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--color-bg-variant);
+    padding: 0 20px;
+    box-shadow: 0 0 5px #132326;
+}
+.navbar-title{
+    color:#132326;
+    font-size: bold;
+    font-size: 2rem;
+}
+.btn-container{
+    display: flex;
+}
+.btn-create{
+    padding: 0.5rem 1.7rem;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color:#132326;
+    border-radius: 10px;
+}
+.btn-create:hover{
+    background-color: var(--color-white);
+    box-shadow: 0 0 10px #132326;
+}
+
+.btn-edit{
+    padding: 0.5rem 1.7rem;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+.btn-edit:hover{
+    background-color: var(--color-white);
+    color: black;
+    box-shadow: 0 0 10px var(--color-bg);
+}
