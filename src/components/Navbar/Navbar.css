@@ -29,15 +29,16 @@
     box-shadow: 0 0 10px #132326;
 }
 
-.btn-edit{
+.btn-return {
     padding: 0.5rem 1.7rem;
     background-color: #fff;
     border: 1px solid #ccc;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
 }
-.btn-edit:hover{
+
+.btn-return:hover{
     background-color: var(--color-white);
-    color: black;
-    box-shadow: 0 0 10px var(--color-bg);
+    box-shadow: 0 0 10px #132326;
 }
+

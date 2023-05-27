@@ -1,7 +1,9 @@
 import React from 'react'
 import './Navbar.css'
+import { useNavigate } from 'react-router-dom';
 
-const Navbar = ({isBtnCreateVisible,isBtnEditVisible, changeShowForm}) => {
+const Navbar = ({isBtnCreateVisible, isBtnReturnVisble, changeShowForm}) => {
+  const history = useNavigate();
   return (
     <div className='navbar-container'>
     <h1 className='navbar-title'>
@@ -11,8 +13,8 @@ const Navbar = ({isBtnCreateVisible,isBtnEditVisible, changeShowForm}) => {
         {isBtnCreateVisible && (
             <button className='btn-create' onClick={changeShowForm}>Create</button>
         )}
-        {isBtnEditVisible && (
-            <button className='btn-edit'>Edit</button>
+        {isBtnReturnVisble && (
+            <button className='btn-return' onClick={() => history(-1)} >Regresar</button>
         )}
     </div>
     </div>

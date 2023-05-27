@@ -36,7 +36,7 @@ const Details = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar isBtnReturnVisble={true}/>
       <div className='details-container'>
         <div className='details-card'>
           <h1>{property.name}</h1>
@@ -45,7 +45,7 @@ const Details = () => {
           </div>
           <div className='details-card-content-container'>
             <div className='detail-content'>
-              <label>Status:</label>
+              <label>Estado:</label>
               {isEditMode ? (
                 <input
                   type='text'
@@ -59,7 +59,7 @@ const Details = () => {
               )}
             </div>
             <div className='detail-content'>
-              <label>Address:</label>
+              <label>Dirección:</label>
               {isEditMode ? (
                 <input
                   type='text'
@@ -73,7 +73,7 @@ const Details = () => {
               )}
             </div>
             <div className='detail-content'>
-              <label>City:</label>
+              <label>Ciudad:</label>
               {isEditMode ? (
                 <input
                   type='text'
@@ -87,7 +87,7 @@ const Details = () => {
               )}
             </div>
             <div className='detail-content'>
-              <label>Area:</label>
+              <label>Área:</label>
               {isEditMode ? (
                 <input
                   type='text'
@@ -101,7 +101,7 @@ const Details = () => {
               )}
             </div>
             <div className='detail-content'>
-              <label>Characteristics:</label>
+              <label>Características:</label>
               {isEditMode ? (
                 <input
                   type='text'
