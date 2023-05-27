@@ -1,5 +1,8 @@
 import React,{useReducer,useState} from 'react'
 import './Form.css'
+import { storage } from '../../firebase';
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import {v4} from 'uuid'
 
 const property={
   name: '',
@@ -16,7 +19,8 @@ const property={
 const reducer=(state, action)=>{
   switch(action.type){
 case "updateField":
-  return{...state, [action.field] :action.value}
+  console.log(state);
+  return {...state, [action.field]:action.value}
 case "reset":
   return property
 default:
@@ -26,12 +30,15 @@ default:
 const Form = () => {
   const [state, dispatch]=useReducer(reducer, property)
   const [imagePreview, setImagePreview] = useState('');
+  const [secret] =useState(v4);
+
   const handleChange = (e) => {
     dispatch({
       type: "updateField",
       field: e.target.name,
-      value: e.target.value,
+      value:e.target.value,
     })
+    
   };
 
   const handleImageChange = (e) => {
@@ -48,6 +55,19 @@ const Form = () => {
         setImagePreview(reader.result);
       };
       reader.readAsDataURL(file);
+      
+      const refImage = `propertys/${secret}`
+      const storageRef = ref(storage, refImage);
+      uploadBytesResumable(storageRef, file).then((reference)=> {
+        getDownloadURL(reference.ref).then((url) => {
+          dispatch({
+            type: 'updateField',
+            field: 'Image',
+            value: url
+          });
+        });
+      });
+
     } else {
       setImagePreview('');
     }
@@ -69,16 +89,22 @@ const Form = () => {
     }
   ]
 
+  const createProperty = () => {
+    
+  }
+
   return (
     <div className='form'>
-    <form onSubmit >
+    <form onSubmit={createProperty}>
 <div className='form-container'>
     <div className='form-input'>
       <div className="form-group">
-        <label htmlFor="comment">Name:</label>
+        <label htmlFor="name">Name:</label>
         <input
+          type='text'
+          name='name'
           className='textarea'
-          id="comment"
+          id="name"
           value={state.name}
           onChange={handleChange}
         />
@@ -88,6 +114,7 @@ const Form = () => {
                 <select
                 className='option'
                 id="status"
+                name='status'
                 value={state.status}
                 onChange={handleChange}
                 >
@@ -104,46 +131,51 @@ const Form = () => {
                 </select>
             </div>
       <div className="form-group">
-        <label htmlFor="comment">Address:</label>
+        <label htmlFor="address">Address:</label>
         <input
+          name='address'
           className='textarea'
-          id="comment"
+          id="address"
           value={state.address}
           onChange={handleChange}
         />
       </div>
       <div className="form-group">
-        <label htmlFor="comment">City:</label>
+        <label htmlFor="city">City:</label>
         <input
+          name='city'
           className='textarea'
-          id="comment"
+          id="city"
           value={state.city}
           onChange={handleChange}
         />
       </div>
       <div className="form-group">
-        <label htmlFor="comment">Area:</label>
+        <label htmlFor="area">Area:</label>
         <input
+          name='area'
           className='textarea'
-          id="comment"
+          id="area"
           value={state.area}
           onChange={handleChange}
         />
       </div>
       <div className="form-group">
-        <label htmlFor="comment">Price:</label>
+        <label htmlFor="price">Price:</label>
         <input
+          name='price'
           className='textarea'
-          id="comment"
+          id="price"
           value={state.price}
           onChange={handleChange}
         />
       </div>
       <div className="form-group">
-        <label htmlFor="comment">Characteristics:</label>
+        <label htmlFor="charac">Characteristics:</label>
         <input
+          name='characteristics'
           className='textarea'
-          id="comment"
+          id="charac"
           value={state.characteristics}
           onChange={handleChange}
         />

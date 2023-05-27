@@ -12,7 +12,7 @@ const Navbar = ({isBtnCreateVisible,isBtnEditVisible, changeShowForm}) => {
             <button className='btn-create' onClick={changeShowForm}>Create</button>
         )}
         {isBtnEditVisible && (
-            <button className='btn-edit'>Edit</button>
+            <button className='btn-edit' onClick={changeShowForm}>Edit</button>
         )}
     </div>
     </div>
