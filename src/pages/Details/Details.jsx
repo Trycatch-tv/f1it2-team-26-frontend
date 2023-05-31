@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './Details.css';
 import Navbar from '../../components/Navbar/Navbar';
 import data from '../../data/data';
+import Map from '../Map/Map';
+import axios from 'axios';
 
 const Details = () => {
   const { id } = useParams();
   const property = data.properties.find((property) => property.id === Number(id));
+  const [address, setAddress] = useState(null);
   const navigate = useNavigate();
 
   const [isEditMode, setIsEditMode] = useState(false);
@@ -34,14 +37,44 @@ const Details = () => {
     setIsEditMode(false);
   };
 
+
+  useEffect(() => {
+    axios
+    .get(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(property.address)}`)
+    .then((response) => {
+      if (response.data && response.data.length > 0) {
+        setAddress(response.data[0]);
+      } else {
+        console.error('Dirección no encontrada');
+        setAddress(null);
+      }
+    })
+    .catch((error) => {
+      console.error('Fallo la petición a openstreetmap', error);
+      setAddress(null);
+    });
+  },[property])
+
+  const handleUbication = () => {
+    if(address !=null){
+      window.open(`https://www.google.com.ec/maps/dir//${address.lat},${address.lon}/@${address.lat},${address.lon},21z?hl=es&entry=ttu`, '_blanck')
+    }
+  }
+  
   return (
     <>
       <Navbar isBtnReturnVisble={true}/>
       <div className='details-container'>
         <div className='details-card'>
           <h1>{property.name}</h1>
-          <div className='details-card-image'>
-            <img src={property.image} alt={property.name} />
+          <div className='details-header'>
+            <div className='details-card-image'>
+              <img src={property.image} alt={property.name} />
+            </div>
+            <div className='details-card-map'>
+              {address != null && <Map latitude={address.lat} longitude={address.lon} />}
+              <button className='btn-ubication' onClick={handleUbication} >Como llegar</button>
+            </div>
           </div>
           <div className='details-card-content-container'>
             <div className='detail-content'>

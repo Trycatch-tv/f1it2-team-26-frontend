@@ -5,6 +5,11 @@
     color: #000000;
     width: 100%;
 }
+.details-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
 .details-card{
     display: flex;
     flex-direction: column;
@@ -21,6 +26,22 @@
     object-fit: cover;
     border-radius: 10px;
 }
+.details-card-map {
+    padding: 0 1rem;
+    border-radius: 10px;
+}
+
+.btn-ubication {
+    top: -1.3rem;
+    background-color: white;
+    position: relative;
+    cursor: pointer;
+    padding: 0.2rem 0.5rem;
+    color: var(--ol-foreground-color);
+    text-shadow: 0 0 2px var(--ol-background-color);
+    font-size: 12px;
+}
+
 .details-card-content-container{
     display: flex;
     flex-direction: column;
@@ -64,3 +85,5 @@
 .details-card-delete:hover{
     box-shadow: 0 0 10px #132326;
 }
+
+
