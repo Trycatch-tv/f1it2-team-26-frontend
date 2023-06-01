@@ -43,7 +43,7 @@
 
 .details-card-edit{
     padding: 0.5rem 1.7rem;
-    background-color: #fff;
+    background-color: rgb(113, 113, 235);
     border: 1px solid #ccc;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     color:#132326;
@@ -53,14 +53,38 @@
     box-shadow: 0 0 10px #132326;
 }
 
+.details-card-save{
+    padding: 0.5rem 1.7rem;
+    background-color: rgb(49, 160, 49);
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color:#132326;
+    border-radius: 10px;
+}
+.details-card-save:hover{
+    box-shadow: 0 0 10px #132326;
+}
+
 .details-card-delete{
     padding: 0.5rem 1.7rem;
-    background-color: #132326;
+    background-color: red;
     border: 1px solid #ccc;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     color:var(--color-white);
     border-radius: 10px;
 }
 .details-card-delete:hover{
+    box-shadow: 0 0 10px #132326;
+}
+
+.details-card-back{
+    padding: 0.5rem 1.7rem;
+    background-color: gray;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color:var(--color-white);
+    border-radius: 10px;
+}
+.details-card-back:hover{
     box-shadow: 0 0 10px #132326;
 }

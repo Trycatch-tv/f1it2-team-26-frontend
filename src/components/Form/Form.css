@@ -57,6 +57,11 @@ label {
     color: #132326;
 }
 
+    .form-validation{
+        background-color: salmon;
+        color: black;
+    }
+
     .form-image{
         width: 300px;
         height: 300px;
