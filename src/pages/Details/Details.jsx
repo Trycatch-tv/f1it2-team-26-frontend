@@ -8,7 +8,6 @@ import Swal from 'sweetalert2';
 const Details = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-
   const { property } = useFetchGetProperty(id);
 
   const [isEditMode, setIsEditMode] = useState(false);
@@ -125,10 +124,10 @@ const Details = () => {
               {isEditMode ? (
                 <input
                   type="text"
-                  name="name"
+                  name="property_name"
                   value={editedProperty.property_name}
                   onChange={handleChange}
-                  placeholder={editedProperty.property_name}
+                  placeholder={property.property_name}
                 />
               ) : (
                 <p>{property.property_name}</p>
@@ -142,7 +141,7 @@ const Details = () => {
                   name="type"
                   value={editedProperty.property_type}
                   onChange={handleChange}
-                  placeholder={editedProperty.property_type}
+                  placeholder={property.property_type}
                 />
               ) : (
                 <p>{property.property_type}</p>
@@ -156,7 +155,7 @@ const Details = () => {
                   name="state"
                   value={editedProperty.state}
                   onChange={handleChange}
-                  placeholder={editedProperty.state}
+                  placeholder={property.state}
                 />
               ) : (
                 <p>{property.state === 'activa' ? 'Disponible' : 'No disponible'}</p>
@@ -170,7 +169,7 @@ const Details = () => {
                   name="sale"
                   value={editedProperty.property_sale}
                   onChange={handleChange}
-                  placeholder={editedProperty.property_sale}
+                  placeholder={property.property_sale}
                 />
               ) : (
                 <p>{property.property_sale === 'venta' ? 'En venta' : 'Arrendamiento'}</p>
@@ -184,7 +183,7 @@ const Details = () => {
                   name="address"
                   value={editedProperty.address}
                   onChange={handleChange}
-                  placeholder={editedProperty.address}
+                  placeholder={property.address}
                 />
               ) : (
                 <p>{property.address}</p>
@@ -198,7 +197,7 @@ const Details = () => {
                   name="city"
                   value={editedProperty.city}
                   onChange={handleChange}
-                  placeholder={editedProperty.city}
+                  placeholder={property.city}
                 />
               ) : (
                 <p>{property.city}</p>
@@ -212,7 +211,7 @@ const Details = () => {
                   name="area"
                   value={editedProperty.area_size}
                   onChange={handleChange}
-                  placeholder={editedProperty.area_size}
+                  placeholder={property.area_size}
                 />
               ) : (
                 <p>{property.area_size} mt2</p>
@@ -226,7 +225,7 @@ const Details = () => {
                   name="price"
                   value={editedProperty.price}
                   onChange={handleChange}
-                  placeholder={editedProperty.price}
+                  placeholder={property.price}
                 />
               ) : (
                 <p>{property.price} $</p>
@@ -240,7 +239,7 @@ const Details = () => {
                   name="characteristics"
                   value={editedProperty.characteristics}
                   onChange={handleChange}
-                  placeholder={editedProperty.characteristics}
+                  placeholder={property.characteristics}
                 />
               ) : (
                 <p>{property.characteristics}</p>
@@ -254,7 +253,7 @@ const Details = () => {
                   name="description"
                   value={editedProperty.description}
                   onChange={handleChange}
-                  placeholder={editedProperty.description}
+                  placeholder={property.description}
                 />
               ) : (
                 <p>{property.description}</p>

@@ -78,7 +78,11 @@ const Home = () => {
       <div className="property-container">
         {filteredPropertiesBySearch.map((property) => {
           return (
-            <Link to={`/details/${property.property_id}`} className="property-card" key={property.property_id}>
+            <Link
+              className="property-card"
+              to={`/details/${property.property_id}?name=${property.property_name}`}
+              key={property.property_id}
+            >
               <div className="property-image--container">
                 <img className="property-image" src={property.image} alt={property.name} />
               </div>

@@ -13,7 +13,7 @@ export const useFetchGetProperty = (id) => {
       setIsLoading();
     })
     .catch(err => err);
-	},[]);
+	},[id]);
   
   return{
     property,
