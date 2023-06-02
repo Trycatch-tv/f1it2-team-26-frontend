@@ -127,7 +127,7 @@ const Form = () => {
             <div className="form-group">
               <label htmlFor="type">Tipo:</label>
               <select className="option" id="type" name="type" value={form.type} onChange={handleChange}>
-                <option defaultValue="" disabled>
+                <option value='' disabled>
                   Seleccione un tipo de propiedad
                 </option>
                 <option value="casa">Casa</option>
