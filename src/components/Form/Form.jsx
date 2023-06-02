@@ -31,24 +31,30 @@ const Form = () => {
   const [state, dispatch] = useReducer(reducer, property);
   const [imagePreview, setImagePreview] = useState('');
 
-  // const handleImageChange = (e) => {
-  //   const file = e.target.files[0];
-  //   dispatch({
-  //     type: 'updateField',
-  //     field: 'image',
-  //     value: file,
-  //   });
-
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onload = () => {
-  //       setImagePreview(reader.result);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   } else {
-  //     setImagePreview('');
-  //   }
-  // };
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImagePreview(reader.result);
+        handleChange({
+          target: {
+            name: 'image',
+            value: file.name, 
+          },
+        });
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setImagePreview('');
+      handleChange({
+        target: {
+          name: 'image',
+          value: '', 
+        },
+      });
+    }
+  };
 
   const onValidate = (form) => {
     let isError = false;
@@ -139,7 +145,7 @@ const Form = () => {
             <div className="form-group">
               <label htmlFor="sale">Operacion:</label>
               <select className="option" id="sale" name="sale" value={form.sale} onChange={handleChange}>
-                <option defaultValue="" disabled>
+                <option value="" disabled>
                   Seleccione el tipo de operacion
                 </option>
                 <option value="venta">En venta</option>
@@ -151,7 +157,7 @@ const Form = () => {
             <div className="form-group">
               <label htmlFor="state">Estado:</label>
               <select className="option" id="state" name="state" value={form.state} onChange={handleChange}>
-                <option defaultValue="" disabled>
+                <option value="" disabled>
                   Seleccione un estado
                 </option>
                 <option value="activa">Disponible</option>
@@ -216,19 +222,13 @@ const Form = () => {
               />
               {errors.description && <span className="form-validation">{errors.description}</span>}
             </div>
-
-            <div className="form-group">
-              <label htmlFor="image">Imagen:</label>
-              <input className="textarea" id="image" name="image" value={form.image} onChange={handleChange} />
-              {errors.image && <span className="form-validation">{errors.image}</span>}
-            </div>
           </div>
 
-          {/* <div className="form-image">
+        <div className="form-image">
             {imagePreview && <img src={imagePreview} alt="Preview" className="image-preview" />}
             <input type="file" id="image" name="image" accept="image/*" onChange={handleImageChange} />
             {errors.image && <span className="form-validation">{errors.image}</span>}
-          </div> */}
+          </div>
         </div>
 
         <button className="form-btn" type="submit" disabled={!errors === []}>

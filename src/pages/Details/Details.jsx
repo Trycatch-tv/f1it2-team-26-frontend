@@ -148,7 +148,7 @@ const Details = () => {
             </div>
             <div className='details-card-map'>
               {address != null && <Map latitude={address.lat} longitude={address.lon} />}
-              <button className='btn-ubication' onClick={handleUbication} >Como llegar</button>
+              {address != null && <button className='btn-ubication' onClick={handleUbication} >Como llegar</button>}
             </div>
           </div>
           <div className="details-card-content-container">
@@ -169,13 +169,13 @@ const Details = () => {
             <div className="detail-content">
               <label>Tipo:</label>
               {isEditMode ? (
-                <input
-                  type="text"
-                  name="type"
-                  value={editedProperty.property_type}
-                  onChange={handleChange}
-                  placeholder={property.property_type}
-                />
+                <select className="option" id="type" name="type" value={editedProperty.type} onChange={handleChange}>
+                <option value='' disabled>
+                  Seleccione un tipo de propiedad
+                </option>
+                <option value="casa">Casa</option>
+                <option value="departamento">Departamento</option>
+              </select>
               ) : (
                 <p>{property.property_type}</p>
               )}
@@ -183,13 +183,13 @@ const Details = () => {
             <div className="detail-content">
               <label>Estado:</label>
               {isEditMode ? (
-                <input
-                  type="text"
-                  name="state"
-                  value={editedProperty.state}
-                  onChange={handleChange}
-                  placeholder={property.state}
-                />
+                <select className="option" id="sale" name="sale" value={editedProperty.sale} onChange={handleChange}>
+                <option value="" disabled>
+                  Seleccione el tipo de operacion
+                </option>
+                <option value="venta">En venta</option>
+                <option value="arriendo">En arriendo</option>
+              </select>
               ) : (
                 <p>{property.state === 'activa' ? 'Disponible' : 'No disponible'}</p>
               )}
@@ -197,13 +197,13 @@ const Details = () => {
             <div className="detail-content">
               <label>Proceso:</label>
               {isEditMode ? (
-                <input
-                  type="text"
-                  name="sale"
-                  value={editedProperty.property_sale}
-                  onChange={handleChange}
-                  placeholder={property.property_sale}
-                />
+                <select className="option" id="state" name="state" value={editedProperty.state} onChange={handleChange}>
+                <option value="" disabled>
+                  Seleccione un estado
+                </option>
+                <option value="activa">Disponible</option>
+                <option value="inactiva">No disponible</option>
+              </select>
               ) : (
                 <p>{property.property_sale === 'venta' ? 'En venta' : 'Arrendamiento'}</p>
               )}
@@ -241,7 +241,7 @@ const Details = () => {
               {isEditMode ? (
                 <input
                   type="text"
-                  name="area"
+                  name="area_size"
                   value={editedProperty.area_size}
                   onChange={handleChange}
                   placeholder={property.area_size}

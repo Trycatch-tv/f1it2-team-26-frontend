@@ -10,6 +10,7 @@ export const useFetchListProperties = () => {
     .then(res => res.json())
     .then(data => {
       setProperties(data);
+      console.log(data);
       setIsLoading();
     })
     .catch(err => err)
