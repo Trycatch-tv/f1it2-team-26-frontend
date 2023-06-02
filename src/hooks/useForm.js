@@ -5,15 +5,20 @@ const useForm = (initialData, onValidate) => {
   const [form, setForm] = useState(initialData);
   const [errors, setErrors] = useState({});
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
+  const handleChange = ({ target: { name, value } }) => {
     setForm({ ...form, [name]: value });
-  }
+    if (errors[name]) {
+      setErrors((prevErrors) => {
+        const updatedErrors = { ...prevErrors };
+        delete updatedErrors[name];
+        return updatedErrors;
+      });
+    }
+  };
 
-  const handleSubmit = event => {
-    event.preventDefault();
-    const err = onValidate(form);
-    if (err === null) {
+  const submitForm = () => {
+    const validationErrors = onValidate(form);
+    if (validationErrors === null) {
       const formData = new FormData();
       formData.append('property_name', form.name);
       formData.append('property_type', form.type);
@@ -26,7 +31,7 @@ const useForm = (initialData, onValidate) => {
       formData.append('characteristics', form.characteristics);
       formData.append('description', form.description);
       formData.append('image', form.image);
-  
+
       fetch('http://localhost:8080/api/v1/property/create', {
         method: 'POST',
         body: formData
@@ -49,14 +54,17 @@ const useForm = (initialData, onValidate) => {
           });
           console.log(err);
         });
-    } 
-    else {
-      setErrors(err);
+    } else {
+      setErrors(validationErrors);
     }
   };
-  
 
-  return { form, errors, handleChange, handleSubmit }
-}
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    submitForm();
+  };
+
+  return { form, errors, handleChange, handleSubmit };
+};
 
 export default useForm;

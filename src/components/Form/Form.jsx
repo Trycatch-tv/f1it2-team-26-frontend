@@ -34,36 +34,36 @@ const Form = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImagePreview(reader.result);
-        handleChange({
-          target: {
-            name: 'image',
-            value: file.name, 
-          },
-        });
-      };
-      reader.readAsDataURL(file);
+      const imageUrl = URL.createObjectURL(file);
+      setImagePreview(imageUrl);
+      handleChange({
+        target: {
+          name: 'image',
+          value: imageUrl,
+        },
+      });
     } else {
       setImagePreview('');
       handleChange({
         target: {
           name: 'image',
-          value: '', 
+          value: '',
         },
       });
     }
   };
+  
+  
 
   const onValidate = (form) => {
     let isError = false;
     let errors = {};
 
-    if (!form.name.trim()) {
-      errors.name = 'El campo nombre no puede ser vacio';
+    if (!form.name.trim().length) {
+      errors.name = 'El campo nombre no puede estar vacío';
       isError = true;
     }
+    
 
     if (form.type.length === 0) {
       errors.type = 'Debe seleccionar el tipo de propiedad';
@@ -126,7 +126,14 @@ const Form = () => {
           <div className="form-input">
             <div className="form-group">
               <label htmlFor="name">Nombre:</label>
-              <input className="textarea" id="name" name="name" value={form.name} onChange={handleChange} />
+              <input 
+              className="textarea" 
+              id="name" 
+              name="name" 
+              value={form.name} 
+              onChange={handleChange} 
+              required 
+              />
               {errors.name && <span className="form-validation">{errors.name}</span>}
             </div>
 
@@ -168,7 +175,7 @@ const Form = () => {
 
             <div className="form-group">
               <label htmlFor="address">Direccion:</label>
-              <input className="textarea" id="address" name="address" value={form.address} onChange={handleChange} />
+              <input className="textarea" id="address" name="address" value={form.address} onChange={handleChange} required />
               {errors.address && <span className="form-validation">{errors.address}</span>}
             </div>
             <div className="form-group">
@@ -185,6 +192,7 @@ const Form = () => {
                 name="area"
                 value={form.area}
                 onChange={handleChange}
+                required
               />
               {errors.area && <span className="form-validation">{errors.area}</span>}
             </div>
@@ -197,6 +205,7 @@ const Form = () => {
                 name="price"
                 value={form.price}
                 onChange={handleChange}
+                required
               />
               {errors.price && <span className="form-validation">{errors.price}</span>}
             </div>
@@ -208,6 +217,7 @@ const Form = () => {
                 name="characteristics"
                 value={form.characteristics}
                 onChange={handleChange}
+                required
               />
               {errors.characteristics && <span className="form-validation">{errors.characteristics}</span>}
             </div>
@@ -219,6 +229,7 @@ const Form = () => {
                 name="description"
                 value={form.description}
                 onChange={handleChange}
+                required
               />
               {errors.description && <span className="form-validation">{errors.description}</span>}
             </div>
@@ -226,14 +237,14 @@ const Form = () => {
 
         <div className="form-image">
             {imagePreview && <img src={imagePreview} alt="Preview" className="image-preview" />}
-            <input type="file" id="image" name="image" accept="image/*" onChange={handleImageChange} />
+            <input type="file" id="image" name="image" accept="image/*" onChange={handleImageChange}  />
             {errors.image && <span className="form-validation">{errors.image}</span>}
           </div>
         </div>
 
-        <button className="form-btn" type="submit" disabled={!errors === []}>
+        <button className="form-btn" type="submit" disabled={Object.keys(errors).length > 0}>
           Registrar
-        </button>
+        </button> 
       </form>
     </div>
   );
