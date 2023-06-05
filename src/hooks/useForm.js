@@ -1,12 +1,10 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
 
 
 const useForm = (initialData, onValidate) => {
   const [form, setForm] = useState(initialData);
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate();
 
 
   const handleChange = ({ target: { name, value } }) => {
@@ -51,8 +49,10 @@ const useForm = (initialData, onValidate) => {
             title: 'Agregar propiedad',
             text: 'Propiedad agregada exitosamente',
             icon: 'success',
-          });
-          navigate('/');
+          }).then(() => {
+            window.location.reload();
+          }
+          );
         })
         .catch((err) => {
           const errorMessage = err.response ? err.response.data.message : 'No se pudo agregar la propiedad';
@@ -60,8 +60,7 @@ const useForm = (initialData, onValidate) => {
             title: 'Agregar propiedad',
             text: errorMessage,
             icon: 'error',
-          });
-          console.log(err);
+          })
         });
     } else {
       setErrors(validationErrors);
