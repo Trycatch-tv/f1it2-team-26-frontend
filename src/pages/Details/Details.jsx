@@ -169,7 +169,7 @@ const Details = () => {
             <div className="detail-content">
               <label>Tipo:</label>
               {isEditMode ? (
-                <select className="option" id="type" name="type" value={editedProperty.type} onChange={handleChange}>
+                <select className="option" id="type" name="property_type" value={editedProperty.property_type} onChange={handleChange}>
                 <option value='' disabled>
                   Seleccione un tipo de propiedad
                 </option>
@@ -183,7 +183,7 @@ const Details = () => {
             <div className="detail-content">
               <label>Estado:</label>
               {isEditMode ? (
-                <select className="option" id="sale" name="sale" value={editedProperty.sale} onChange={handleChange}>
+                <select className="option" id="sale" name="property_sale" value={editedProperty.property_sale} onChange={handleChange}>
                 <option value="" disabled>
                   Seleccione el tipo de operacion
                 </option>
