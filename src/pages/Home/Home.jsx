@@ -11,7 +11,7 @@ const Home = () => {
   const [filterStatus, setFilterStatus] = useState('');
   const [searchValue, setSearchValue] = useState('');
   const [showAllProperties, setShowAllProperties] = useState(true);
-  const { properties, fetchProperties } = useFetchListProperties();
+  const { properties} = useFetchListProperties();
 
   const handleFilterStatus = (status) => {
     if (status === filterStatus) {

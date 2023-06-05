@@ -1,12 +1,12 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { useFetchListProperties } from './useFetchProperties';
+import { useNavigate } from "react-router-dom";
 
 
-const useForm = (initialData, onValidate,onPropertyCreated) => {
+const useForm = (initialData, onValidate) => {
   const [form, setForm] = useState(initialData);
   const [errors, setErrors] = useState({});
-  const { fetchProperties } = useFetchListProperties();
+  const navigate = useNavigate();
 
 
   const handleChange = ({ target: { name, value } }) => {
@@ -52,7 +52,7 @@ const useForm = (initialData, onValidate,onPropertyCreated) => {
             text: 'Propiedad agregada exitosamente',
             icon: 'success',
           });
-          fetchProperties();
+          navigate('/');
         })
         .catch((err) => {
           const errorMessage = err.response ? err.response.data.message : 'No se pudo agregar la propiedad';
