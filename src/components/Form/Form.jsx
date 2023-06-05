@@ -1,6 +1,9 @@
-import React, { useReducer, useState } from 'react';
+import React, { useState } from 'react';
 import useForm from '../../hooks/useForm';
 import './Form.css';
+import { storage } from '../../firebase';
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import {v4} from 'uuid'
 
 const property = {
   name: '',
@@ -13,43 +16,34 @@ const property = {
   price: '',
   characteristics: '',
   description: '',
-  image: '',
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'updateField':
-      return { ...state, [action.field]: action.value };
-    case 'reset':
-      return property;
-    default:
-      return state;
-  }
+  image: ''
 };
 
 const Form = () => {
-  const [state, dispatch] = useReducer(reducer, property);
   const [imagePreview, setImagePreview] = useState('');
+  const [secret] =useState(v4);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+   
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImagePreview(imageUrl);
-      handleChange({
-        target: {
-          name: 'image',
-          value: imageUrl,
-        },
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImagePreview(reader.result);
+        
+      };
+      reader.readAsDataURL(file);
+      
+      const refImage = `propertys/${secret}`
+      const storageRef = ref(storage, refImage);
+      uploadBytesResumable(storageRef, file).then((reference)=> {
+        getDownloadURL(reference.ref).then((url) => {
+          handleChange({target: {name:'image', value:url}})
+        });
       });
+
     } else {
       setImagePreview('');
-      handleChange({
-        target: {
-          name: 'image',
-          value: '',
-        },
-      });
     }
   };
   
