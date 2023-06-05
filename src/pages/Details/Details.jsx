@@ -73,36 +73,40 @@ const Details = () => {
   const handleDelete = () => {
     Swal.fire({
       title: 'Eliminar Propiedad',
-      text: '¿Esta seguro de eliminar esta propiedad?',
+      text: '¿Está seguro de eliminar esta propiedad?',
       icon: 'question',
-      confirmButtonColor: '#3085d6',
-      confirmButtonText: 'Si, eliminar',
       showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'Sí, eliminar',
       cancelButtonColor: '#d33',
       cancelButtonText: 'No, volver',
     }).then((result) => {
       if (result.isConfirmed) {
         fetch(`http://localhost:8080/api/v1/property/deleteproperty/${id}`, { method: 'DELETE' })
-          .then((res) => res.json())
           .then((res) => {
-            console.log(res);
-            Swal.fire({
-              title: 'Eliminar propiedad',
-              text: 'Propiedad eliminada exitosamente',
-              icon: 'success',
-            });
-            navigate('/');
+            if (res.ok) {
+              Swal.fire({
+                title: 'Eliminar propiedad',
+                text: 'Propiedad eliminada exitosamente',
+                icon: 'success',
+              });
+              navigate('/');
+            } else {
+              throw new Error('Error al eliminar la propiedad');
+            }
           })
           .catch((error) => {
+            console.error(error);
             Swal.fire({
               title: 'Eliminar propiedad',
-              text: 'Ha ocurrido un error, No se pudo eliminar esta propiedad',
+              text: 'Ha ocurrido un error. No se pudo eliminar esta propiedad',
               icon: 'error',
             });
           });
       }
     });
   };
+  
 
   const handleComeBack = () => {
     if (isEditMode) {

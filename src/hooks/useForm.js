@@ -19,25 +19,29 @@ const useForm = (initialData, onValidate) => {
   const submitForm = () => {
     const validationErrors = onValidate(form);
     if (validationErrors === null) {
-      const formData = new FormData();
-      formData.append('property_name', form.name);
-      formData.append('property_type', form.type);
-      formData.append('property_sale', form.sale);
-      formData.append('state', form.state);
-      formData.append('address', form.address);
-      formData.append('city', form.city);
-      formData.append('area_size', form.area);
-      formData.append('price', form.price);
-      formData.append('characteristics', form.characteristics);
-      formData.append('description', form.description);
-      formData.append('image', form.image);
-
+      const formData = {
+        property_name: form.name,
+        property_type: form.type,
+        property_sale: form.sale,
+        state: form.state,
+        address: form.address,
+        city: form.city,
+        area_size: form.area,
+        price: form.price,
+        characteristics: form.characteristics,
+        description: form.description,
+        image: form.image,
+      };
+  
       fetch('http://localhost:8080/api/v1/property/create', {
         method: 'POST',
-        body: formData
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       })
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           console.log(data);
           Swal.fire({
             title: 'Agregar propiedad',
@@ -58,6 +62,7 @@ const useForm = (initialData, onValidate) => {
       setErrors(validationErrors);
     }
   };
+  
 
   const handleSubmit = (event) => {
     event.preventDefault();
