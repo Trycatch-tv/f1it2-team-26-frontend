@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react';
+import React, { useState } from 'react';
 import useForm from '../../hooks/useForm';
 import './Form.css';
 
@@ -16,19 +16,8 @@ const property = {
   image: '',
 };
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'updateField':
-      return { ...state, [action.field]: action.value };
-    case 'reset':
-      return property;
-    default:
-      return state;
-  }
-};
 
 const Form = () => {
-  const [state, dispatch] = useReducer(reducer, property);
   const [imagePreview, setImagePreview] = useState('');
 
   const handleImageChange = (e) => {
