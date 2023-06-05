@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Home.css';
 import Navbar from '../../components/Navbar/Navbar';
@@ -11,12 +11,18 @@ const Home = () => {
   const [filterStatus, setFilterStatus] = useState('');
   const [searchValue, setSearchValue] = useState('');
   const [showAllProperties, setShowAllProperties] = useState(true);
+  const [refreshProperties, setRefreshProperties] = useState(false);
+  const { properties, fetchProperties } = useFetchListProperties();
 
-  const { properties } = useFetchListProperties();
+  useEffect(() => {
+    if (refreshProperties) {
+      fetchProperties();
+      setRefreshProperties(false);
+    }
+  }, [refreshProperties, fetchProperties]);
 
   const handleFilterStatus = (status) => {
     if (status === filterStatus) {
-      // Desactivar el filtro si se selecciona nuevamente
       setFilterStatus('');
       setShowAllProperties(true);
     } else {
@@ -36,11 +42,13 @@ const Home = () => {
   const changeShowForm = () => {
     setShowForm(!showForm);
   };
+  const handlePropertyCreated = () => {
+    setRefreshProperties(true);
+  };
 
   const filteredProperties = showAllProperties
     ? properties
     : properties.filter((property) => {
-        // Aplicar filtro por estado
         if (filterStatus === '') return true;
         return property.property_sale === filterStatus;
       });
@@ -52,7 +60,7 @@ const Home = () => {
   return (
     <>
       <Navbar isBtnCreateVisible={true} changeShowForm={changeShowForm} />
-      {showForm && <Form />}
+      {showForm && <Form onPropertyCreated={handlePropertyCreated} />}
       <div className="filter-buttons">
         <button onClick={handleToggleFilterButtons}>Filtrar</button>
         {showFilterButtons && (

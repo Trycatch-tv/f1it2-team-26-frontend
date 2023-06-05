@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
 
-const useForm = (initialData, onValidate) => {
+const useForm = (initialData, onValidate,onPropertyCreated) => {
   const [form, setForm] = useState(initialData);
   const [errors, setErrors] = useState({});
 
@@ -67,6 +67,7 @@ const useForm = (initialData, onValidate) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     submitForm();
+    onPropertyCreated();
   };
 
   return { form, errors, handleChange, handleSubmit };
