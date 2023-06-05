@@ -16,8 +16,9 @@ const property = {
   price: '',
   characteristics: '',
   description: '',
-  image: ''
+  image: '',
 };
+
 
 const Form = () => {
   const [imagePreview, setImagePreview] = useState('');
