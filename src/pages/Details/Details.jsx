@@ -110,10 +110,7 @@ const Details = () => {
 
   const handleComeBack = () => {
     if (isEditMode) {
-      setIsEditMode(false);
-    } else {
-      navigate('/');
-    }
+      setIsEditMode(false);}
   };
 
 
@@ -298,22 +295,25 @@ const Details = () => {
             </div>
           </div>
           <div className="details-card-buttons">
-            {isEditMode ? (
-              <button className="details-card-save" onClick={handleSubmit}>
-                Guardar
-              </button>
-            ) : (
-              <button className="details-card-edit" onClick={handleEdit}>
-                Editar
-              </button>
-            )}
-            <button className="details-card-delete" onClick={handleDelete}>
-              Eliminar
-            </button>
-            <button className="details-card-back" onClick={handleComeBack}>
-              Volver
-            </button>
-          </div>
+  {isEditMode ? (
+    <button className="details-card-save" onClick={handleSubmit}>
+      Guardar
+    </button>
+  ) : (
+    <button className="details-card-edit" onClick={handleEdit}>
+      Editar
+    </button>
+  )}
+  {isEditMode ? (
+    <button className="details-card-delete" onClick={handleComeBack}>
+      Cancelar
+    </button>
+  ) : (
+    <button className="details-card-delete" onClick={handleDelete}>
+     Eliminar
+    </button>
+  )}
+</div>
         </div>
       </div>
     </>
