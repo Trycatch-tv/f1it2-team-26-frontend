@@ -109,8 +109,7 @@ const Details = () => {
   
 
   const handleComeBack = () => {
-    if (isEditMode) {
-      setIsEditMode(false);}
+      setIsEditMode(false)
   };
 
 
@@ -192,7 +191,7 @@ const Details = () => {
                 <option value="arriendo">En arriendo</option>
               </select>
               ) : (
-                <p>{property.state === 'activa' ? 'Disponible' : 'No disponible'}</p>
+                <p>{property.property_sale === 'venta' ? 'En venta' : 'Arrendamiento'}</p>
               )}
             </div>
             <div className="detail-content">
@@ -206,7 +205,7 @@ const Details = () => {
                 <option value="inactiva">No disponible</option>
               </select>
               ) : (
-                <p>{property.property_sale === 'venta' ? 'En venta' : 'Arrendamiento'}</p>
+                <p>{property.state === 'activa' ? 'Disponible' : 'No disponible'}</p>
               )}
             </div>
             <div className="detail-content">
