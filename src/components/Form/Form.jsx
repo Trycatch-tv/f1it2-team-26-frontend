@@ -27,7 +27,7 @@ const reducer = (state, action) => {
   }
 };
 
-const Form = ({ onPropertyCreated }) => {
+const Form = () => {
   const [state, dispatch] = useReducer(reducer, property);
   const [imagePreview, setImagePreview] = useState('');
 
@@ -117,7 +117,7 @@ const Form = ({ onPropertyCreated }) => {
     return isError ? errors : null;
   };
 
-  const { form, errors, handleChange, handleSubmit } = useForm(property, onValidate,onPropertyCreated );
+  const { form, errors, handleChange, handleSubmit } = useForm(property, onValidate );
 
   return (
     <div className="form">

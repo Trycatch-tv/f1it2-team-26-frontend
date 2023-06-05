@@ -1,9 +1,13 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { useFetchListProperties } from './useFetchProperties';
+
 
 const useForm = (initialData, onValidate,onPropertyCreated) => {
   const [form, setForm] = useState(initialData);
   const [errors, setErrors] = useState({});
+  const { fetchProperties } = useFetchListProperties();
+
 
   const handleChange = ({ target: { name, value } }) => {
     setForm({ ...form, [name]: value });
@@ -48,6 +52,7 @@ const useForm = (initialData, onValidate,onPropertyCreated) => {
             text: 'Propiedad agregada exitosamente',
             icon: 'success',
           });
+          fetchProperties();
         })
         .catch((err) => {
           const errorMessage = err.response ? err.response.data.message : 'No se pudo agregar la propiedad';
@@ -67,7 +72,6 @@ const useForm = (initialData, onValidate,onPropertyCreated) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     submitForm();
-    onPropertyCreated();
   };
 
   return { form, errors, handleChange, handleSubmit };

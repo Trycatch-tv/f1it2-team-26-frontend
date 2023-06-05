@@ -11,15 +11,7 @@ const Home = () => {
   const [filterStatus, setFilterStatus] = useState('');
   const [searchValue, setSearchValue] = useState('');
   const [showAllProperties, setShowAllProperties] = useState(true);
-  const [refreshProperties, setRefreshProperties] = useState(false);
   const { properties, fetchProperties } = useFetchListProperties();
-
-  useEffect(() => {
-    if (refreshProperties) {
-      fetchProperties();
-      setRefreshProperties(false);
-    }
-  }, [refreshProperties, fetchProperties]);
 
   const handleFilterStatus = (status) => {
     if (status === filterStatus) {
@@ -42,9 +34,6 @@ const Home = () => {
   const changeShowForm = () => {
     setShowForm(!showForm);
   };
-  const handlePropertyCreated = () => {
-    setRefreshProperties(true);
-  };
 
   const filteredProperties = showAllProperties
     ? properties
@@ -60,7 +49,7 @@ const Home = () => {
   return (
     <>
       <Navbar isBtnCreateVisible={true} changeShowForm={changeShowForm} />
-      {showForm && <Form onPropertyCreated={handlePropertyCreated} />}
+      {showForm && <Form />}
       <div className="filter-buttons">
         <button onClick={handleToggleFilterButtons}>Filtrar</button>
         {showFilterButtons && (
