@@ -5,13 +5,12 @@ import Navbar from '../../components/Navbar/Navbar';
 import { useFetchGetProperty } from '../../hooks/useFetchProperty';
 import Swal from 'sweetalert2';
 import Map from '../Map/Map';
-import axios from 'axios';
 
 const Details = () => {
   const { id } = useParams();
   const [address, setAddress] = useState(null);
   const navigate = useNavigate();
-  const { property } = useFetchGetProperty(id);
+  const { property, addressProperty } = useFetchGetProperty(id);
 
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedProperty, setEditedProperty] = useState(property);
@@ -114,21 +113,30 @@ const Details = () => {
 
 
   useEffect(() => {
-    axios
-    .get(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(property.address)}`)
-    .then((response) => {
-      if (response.data && response.data.length > 0) {
-        setAddress(response.data[0]);
-      } else {
-        console.error('Dirección no encontrada');
-        setAddress(null);
+    if(addressProperty !== null && addressProperty !== undefined){
+      searchLocation(addressProperty);
+    }
+  },[addressProperty])
+
+  const searchLocation = async (query) => {
+    const encodedQuery = encodeURIComponent(query);
+    const url = `https://nominatim.openstreetmap.org/search?q=${encodedQuery}&format=json`;
+  
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        const data = await response.json();
+        if (data && data.length > 0) {
+          setAddress(data[0]);
+        } else {
+          console.error('No se encontraron coordenadas para la ubicación especificada.');
+        }
       }
-    })
-    .catch((error) => {
-      console.error('Fallo la petición a openstreetmap', error);
-      setAddress(null);
-    });
-  },[property])
+    } catch (error) {
+      console.error('Error al realizar la solicitud:', error);
+    }
+  };
+  
 
   const handleUbication = () => {
     if(address !=null){

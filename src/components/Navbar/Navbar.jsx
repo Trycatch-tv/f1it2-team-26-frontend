@@ -7,11 +7,7 @@ const Navbar = ({isBtnCreateVisible, isBtnReturnVisble, changeShowForm}) => {
   const [createButtonText, setCreateButtonText] = useState('Create');
   const handleShowForm = () => {
     changeShowForm();
-    if (createButtonText === 'Create') {
-      setCreateButtonText('Close');
-    } else {
-      setCreateButtonText('Create');
-    }
+    setCreateButtonText(createButtonText === 'Create' ? 'Close' : 'Create');
   };
   return (
     <div className='navbar-container'>
