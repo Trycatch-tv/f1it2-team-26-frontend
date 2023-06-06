@@ -1,73 +1,18 @@
 import React, { useState, useEffect} from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import './Details.css';
 import Navbar from '../../components/Navbar/Navbar';
 import { useFetchGetProperty } from '../../hooks/useFetchProperty';
 import Swal from 'sweetalert2';
 import Map from '../Map/Map';
+import useFetchPropertyEdit  from '../../hooks/useFetchPropertyEdit';
 
 const Details = () => {
   const { id } = useParams();
   const [address, setAddress] = useState(null);
-  const navigate = useNavigate();
   const { property, addressProperty } = useFetchGetProperty(id);
-
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [editedProperty, setEditedProperty] = useState(property);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditedProperty({ ...editedProperty, [name]: value });
-  };
-
-  const handleEdit = () => {
-    setIsEditMode(true);
-    setEditedProperty(property);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    Swal.fire({
-      title: 'Editar Propiedad',
-      text: '¿Esta seguro de editar esta propiedad?',
-      icon: 'question',
-      confirmButtonColor: '#3085d6',
-      confirmButtonText: 'Si, Editar',
-      showCancelButton: true,
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'No, volver',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        fetch(`http://localhost:8080/api/v1/property/update/${id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(editedProperty),
-        })
-          .then((res) => res.json())
-          .then((res) => {
-            console.log(res);
-            Swal.fire({
-              title: 'editar propiedad',
-              text: 'Propiedad editada exitosamente',
-              icon: 'success',
-            });
-            navigate('/');
-          })
-          .catch(
-            Swal.fire({
-              title: 'Editar propiedad',
-              text: 'Ha ocurrido un error, No se pudo editar esta propiedad',
-              icon: 'error',
-            }),
-          );
-      }
-    });
-
-    console.log(editedProperty);
-    // setIsEditMode(false);
-  };
+  const { isEditMode, editedProperty, handleChange, handleEdit, handleComeBack, handleSubmit } = useFetchPropertyEdit(property);
+  
 
   const handleDelete = () => {
     Swal.fire({
@@ -89,7 +34,6 @@ const Details = () => {
                 text: 'Propiedad eliminada exitosamente',
                 icon: 'success',
               });
-              navigate('/');
             } else {
               throw new Error('Error al eliminar la propiedad');
             }
@@ -106,11 +50,6 @@ const Details = () => {
     });
   };
   
-
-  const handleComeBack = () => {
-      setIsEditMode(false)
-  };
-
 
   useEffect(() => {
     if(addressProperty !== null && addressProperty !== undefined){
