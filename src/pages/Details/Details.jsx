@@ -1,40 +1,43 @@
-import React, { useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './Details.css';
 import Navbar from '../../components/Navbar/Navbar';
 import { useFetchGetProperty } from '../../hooks/useFetchProperty';
 import useFetchPropertyDelete from '../../hooks/useFetchPropertyDelete';
 import Map from '../Map/Map';
-import useFetchPropertyEdit  from '../../hooks/useFetchPropertyEdit';
+import useFetchPropertyEdit from '../../hooks/useFetchPropertyEdit';
 import useFetchMap from '../../hooks/useFecthMap';
 
 const Details = () => {
   const { id } = useParams();
   const { property, addressProperty } = useFetchGetProperty(id);
-  const { isEditMode, editedProperty, handleChange, handleEdit, handleComeBack, handleSubmit } = useFetchPropertyEdit(property,id);
+  const { isEditMode, editedProperty, handleChange, handleEdit, handleComeBack, handleSubmit } = useFetchPropertyEdit(property, id);
   const { handleDelete } = useFetchPropertyDelete(id);
-  const {searchLocation, handleUbication, address} = useFetchMap();
+  const { searchLocation, handleUbication, address } = useFetchMap();
 
   useEffect(() => {
-    if(addressProperty !== null && addressProperty !== undefined){
+    if (addressProperty) {
       searchLocation(addressProperty);
     }
-  },[addressProperty,searchLocation])
+  }, [addressProperty]);
 
-  
   return (
     <>
       <Navbar isBtnReturnVisble={true} />
       <div className="details-container">
         <div className="details-card">
           <h1>{property.property_name}</h1>
-          <div className='details-header'>
+          <div className="details-header">
             <div className="details-card-image">
               <img src={property.image} alt={property.property_name} />
             </div>
-            <div className='details-card-map'>
-              {address != null && <Map latitude={address.lat} longitude={address.lon} />}
-              {address != null && <button className='btn-ubication' onClick={handleUbication} >Como llegar</button>}
+            <div className="details-card-map">
+              {address && <Map latitude={address.lat} longitude={address.lon} />}
+              {address && (
+                <button className="btn-ubication" onClick={handleUbication}>
+                  Como llegar
+                </button>
+              )}
             </div>
           </div>
           <div className="details-card-content-container">
@@ -47,6 +50,7 @@ const Details = () => {
                   value={editedProperty.property_name}
                   onChange={handleChange}
                   placeholder={property.property_name}
+                  required
                 />
               ) : (
                 <p>{property.property_name}</p>
@@ -55,13 +59,13 @@ const Details = () => {
             <div className="detail-content">
               <label>Tipo:</label>
               {isEditMode ? (
-                <select className="option" id="type" name="property_type" value={editedProperty.property_type} onChange={handleChange}>
-                <option value='' disabled>
-                  Seleccione un tipo de propiedad
-                </option>
-                <option value="casa">Casa</option>
-                <option value="departamento">Departamento</option>
-              </select>
+                <select className="option" id="type" name="property_type" value={editedProperty.property_type} onChange={handleChange} required>
+                  <option value="" disabled>
+                    Seleccione un tipo de propiedad
+                  </option>
+                  <option value="casa">Casa</option>
+                  <option value="departamento">Departamento</option>
+                </select>
               ) : (
                 <p>{property.property_type}</p>
               )}
@@ -69,13 +73,13 @@ const Details = () => {
             <div className="detail-content">
               <label>Estado:</label>
               {isEditMode ? (
-                <select className="option" id="sale" name="property_sale" value={editedProperty.property_sale} onChange={handleChange}>
-                <option value="" disabled>
-                  Seleccione el tipo de operacion
-                </option>
-                <option value="venta">En venta</option>
-                <option value="arriendo">En arriendo</option>
-              </select>
+                <select className="option" id="sale" name="property_sale" value={editedProperty.property_sale} onChange={handleChange} required>
+                  <option value="" disabled>
+                    Seleccione el tipo de operacion
+                  </option>
+                  <option value="venta">En venta</option>
+                  <option value="arriendo">En arriendo</option>
+                </select>
               ) : (
                 <p>{property.property_sale === 'venta' ? 'En venta' : 'Arrendamiento'}</p>
               )}
@@ -83,13 +87,13 @@ const Details = () => {
             <div className="detail-content">
               <label>Proceso:</label>
               {isEditMode ? (
-                <select className="option" id="state" name="state" value={editedProperty.state} onChange={handleChange}>
-                <option value="" disabled>
-                  Seleccione un estado
-                </option>
-                <option value="activa">Disponible</option>
-                <option value="inactiva">No disponible</option>
-              </select>
+                <select className="option" id="state" name="state" value={editedProperty.state} onChange={handleChange} required>
+                  <option value="" disabled>
+                    Seleccione un estado
+                  </option>
+                  <option value="activa">Disponible</option>
+                  <option value="inactiva">No disponible</option>
+                </select>
               ) : (
                 <p>{property.state === 'activa' ? 'Disponible' : 'No disponible'}</p>
               )}
@@ -103,6 +107,7 @@ const Details = () => {
                   value={editedProperty.address}
                   onChange={handleChange}
                   placeholder={property.address}
+                  required
                 />
               ) : (
                 <p>{property.address}</p>
@@ -117,6 +122,7 @@ const Details = () => {
                   value={editedProperty.city}
                   onChange={handleChange}
                   placeholder={property.city}
+                  required
                 />
               ) : (
                 <p>{property.city}</p>
@@ -131,6 +137,7 @@ const Details = () => {
                   value={editedProperty.area_size}
                   onChange={handleChange}
                   placeholder={property.area_size}
+                  required
                 />
               ) : (
                 <p>{property.area_size} mt2</p>
@@ -159,13 +166,14 @@ const Details = () => {
                   value={editedProperty.characteristics}
                   onChange={handleChange}
                   placeholder={property.characteristics}
+                  required
                 />
               ) : (
                 <p>{property.characteristics}</p>
               )}
             </div>
             <div className="detail-content">
-              <label>Descripcion:</label>
+              <label>Descripción:</label>
               {isEditMode ? (
                 <input
                   type="text"
@@ -173,6 +181,7 @@ const Details = () => {
                   value={editedProperty.description}
                   onChange={handleChange}
                   placeholder={property.description}
+                  required
                 />
               ) : (
                 <p>{property.description}</p>
@@ -180,25 +189,25 @@ const Details = () => {
             </div>
           </div>
           <div className="details-card-buttons">
-  {isEditMode ? (
-    <button className="details-card-save" onClick={handleSubmit}>
-      Guardar
-    </button>
-  ) : (
-    <button className="details-card-edit" onClick={handleEdit}>
-      Editar
-    </button>
-  )}
-  {isEditMode ? (
-    <button className="details-card-delete" onClick={handleComeBack}>
-      Cancelar
-    </button>
-  ) : (
-    <button className="details-card-delete" onClick={handleDelete}>
-     Eliminar
-    </button>
-  )}
-</div>
+            {isEditMode ? (
+              <button className="details-card-save" onClick={handleSubmit}>
+                Guardar
+              </button>
+            ) : (
+              <button className="details-card-edit" onClick={handleEdit}>
+                Editar
+              </button>
+            )}
+            {isEditMode ? (
+              <button className="details-card-delete" onClick={handleComeBack}>
+                Cancelar
+              </button>
+            ) : (
+              <button className="details-card-delete" onClick={handleDelete}>
+                Eliminar
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </>

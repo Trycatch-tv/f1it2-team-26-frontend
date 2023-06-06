@@ -1,13 +1,14 @@
 import React,{useState} from 'react'
 import './Navbar.css'
 import { useNavigate } from 'react-router-dom';
+import { Style } from 'ol/style';
 
 const Navbar = ({isBtnCreateVisible, isBtnReturnVisble, changeShowForm}) => {
   const history = useNavigate();
-  const [createButtonText, setCreateButtonText] = useState('Create');
+  const [createButtonText, setCreateButtonText] = useState('Crear');
   const handleShowForm = () => {
     changeShowForm();
-    setCreateButtonText(createButtonText === 'Create' ? 'Close' : 'Create');
+    setCreateButtonText(createButtonText === 'Crear' ? 'Cerrar' : 'Crear');
   };
   return (
     <div className='navbar-container'>
@@ -16,7 +17,7 @@ const Navbar = ({isBtnCreateVisible, isBtnReturnVisble, changeShowForm}) => {
     </h1>
     <div className='btn-container'>
         {isBtnCreateVisible && (
-            <button className='btn-create' onClick={handleShowForm}>{createButtonText}</button>
+            <button className={`btn-create ${createButtonText === 'Cerrar' ? 'btn-close' : ''}`} onClick={handleShowForm} >{createButtonText}</button>
         )}
         {isBtnReturnVisble && (
             <button className='btn-return' onClick={() => history(-1)} >Regresar</button>

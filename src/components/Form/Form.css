@@ -72,12 +72,12 @@ label {
         object-fit: cover;
     }
 
-    .form-btn{
+    .form-btn-register{
     position: relative;
     width: 140px;
     height: 100%;
     padding: 10px;
-    background-color:var(--color-bg-variant);
+    background-color: rgb(49, 160, 49);
     color:#132326;
     border-radius: 10px;
     font-size: 16px;
@@ -85,7 +85,7 @@ label {
     left: calc(50% - 3.6rem);
     }
 
-    .form-btn:hover{
+    .form-btn-register:hover{
     box-shadow: 0 0 10px #132326;
     }
 

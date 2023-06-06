@@ -91,10 +91,10 @@ const Form = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="sale">Operacion:</label>
+              <label htmlFor="sale">Operación:</label>
               <select className="option" id="sale" name="sale" value={form.sale} onChange={handleChange} required>
                 <option value="" disabled>
-                  Seleccione el tipo de operacion
+                  Seleccione el tipo de operación
                 </option>
                 <option value="venta">En venta</option>
                 <option value="arriendo">En arriendo</option>
@@ -119,7 +119,7 @@ const Form = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="address">Direccion:</label>
+              <label htmlFor="address">Dirección:</label>
               <input className="textarea" id="address" name="address" value={form.address} onChange={handleChange} required/>
               {errors.address && (
                 <span className="form-validation">{errors.address}</span>
@@ -133,7 +133,7 @@ const Form = () => {
               )}
             </div>
             <div className="form-group">
-              <label htmlFor="comment">Area:</label>
+              <label htmlFor="comment">Área:</label>
               <input type="number" className="textarea" id="area" name="area" value={form.area} onChange={handleChange} required/>
               {errors.area && (
                 <span className="form-validation">{errors.area}</span>
@@ -147,7 +147,7 @@ const Form = () => {
               )}
             </div>
             <div className="form-group">
-              <label htmlFor="characteristics">Caracteristicas:</label>
+              <label htmlFor="characteristics">Características:</label>
               <input className="textarea" id="characteristics" name="characteristics" value={form.characteristics} onChange={handleChange} required />
               {errors.characteristics && (
                 <span className="form-validation">
@@ -156,7 +156,7 @@ const Form = () => {
               )}
             </div>
             <div className="form-group">
-              <label htmlFor="description">Descripcion:</label>
+              <label htmlFor="description">Descripción:</label>
               <input className="textarea" id="description" name="description" value={form.description} onChange={handleChange} required/>
               {errors.description && (
                 <span className="form-validation">{errors.description}</span>
@@ -168,14 +168,14 @@ const Form = () => {
             {imagePreview && (
               <img src={imagePreview} alt="Preview" className="image-preview" />
             )}
-            <input type="file" id="image" name="image" accept="image/*" onChange={handleImageChange} required/>
+            <input type="file" id="image" name="image" accept="image/*" onChange={handleImageChange} required />
             {errors.image && (
               <span className="form-validation">{errors.image}</span>
             )}
           </div>
         </div>
 
-        <button className="form-btn" type="submit" disabled={Object.keys(errors).length > 0}>
+        <button className="form-btn-register" type="submit" disabled={Object.keys(errors).length > 0}>
           Registrar
         </button>
       </form>
