@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 import './Details.css';
 import Navbar from '../../components/Navbar/Navbar';
@@ -6,13 +6,14 @@ import { useFetchGetProperty } from '../../hooks/useFetchProperty';
 import useFetchPropertyDelete from '../../hooks/useFetchPropertyDelete';
 import Map from '../Map/Map';
 import useFetchPropertyEdit  from '../../hooks/useFetchPropertyEdit';
+import useFetchMap from '../../hooks/useFecthMap';
 
 const Details = () => {
   const { id } = useParams();
-  const [address, setAddress] = useState(null);
   const { property, addressProperty } = useFetchGetProperty(id);
   const { isEditMode, editedProperty, handleChange, handleEdit, handleComeBack, handleSubmit } = useFetchPropertyEdit(property,id);
   const { handleDelete } = useFetchPropertyDelete(id);
+  const {searchLocation, handleUbication, address} = useFetchMap();
 
   useEffect(() => {
     if(addressProperty !== null && addressProperty !== undefined){
@@ -20,31 +21,6 @@ const Details = () => {
     }
   },[addressProperty])
 
-  const searchLocation = async (query) => {
-    const encodedQuery = encodeURIComponent(query);
-    const url = `https://nominatim.openstreetmap.org/search?q=${encodedQuery}&format=json`;
-  
-    try {
-      const response = await fetch(url);
-      if (response.ok) {
-        const data = await response.json();
-        if (data && data.length > 0) {
-          setAddress(data[0]);
-        } else {
-          console.error('No se encontraron coordenadas para la ubicación especificada.');
-        }
-      }
-    } catch (error) {
-      console.error('Error al realizar la solicitud:', error);
-    }
-  };
-  
-
-  const handleUbication = () => {
-    if(address !=null){
-      window.open(`https://www.google.com.ec/maps/dir//${address.lat},${address.lon}/@${address.lat},${address.lon},21z?hl=es&entry=ttu`, '_blanck')
-    }
-  }
   
   return (
     <>
