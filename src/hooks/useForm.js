@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
-
+const URL_API = process.env.REACT_APP_API_URL;
 
 const useForm = (initialData, onValidate) => {
   const [form, setForm] = useState(initialData);
@@ -35,7 +35,7 @@ const useForm = (initialData, onValidate) => {
         image: form.image,
       };
   
-      fetch('http://localhost:8080/api/v1/property/create', {
+      fetch(`${URL_API}/property/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

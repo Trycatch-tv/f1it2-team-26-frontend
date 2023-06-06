@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
+const URL_API = process.env.REACT_APP_API_URL;
 
-export const useFetchGetProperty = (id) => {
+useFetchGetProperty = (id) => {
 
   const [property, setProperty] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [addressProperty, setAdressProperty] = useState(null);
   
 	useEffect(() => {
-    fetch(`http://localhost:8080/api/v1/property/${id}`)
+    fetch(`${URL_API}/property/${id}`)
     .then(res => res.json())
     .then(data => {
       setAdressProperty(data.address);
