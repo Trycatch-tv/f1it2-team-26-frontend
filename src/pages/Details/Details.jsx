@@ -11,7 +11,7 @@ const Details = () => {
   const { id } = useParams();
   const [address, setAddress] = useState(null);
   const { property, addressProperty } = useFetchGetProperty(id);
-  const { isEditMode, editedProperty, handleChange, handleEdit, handleComeBack, handleSubmit } = useFetchPropertyEdit(property);
+  const { isEditMode, editedProperty, handleChange, handleEdit, handleComeBack, handleSubmit } = useFetchPropertyEdit(property,id);
   
 
   const handleDelete = () => {

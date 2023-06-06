@@ -2,7 +2,7 @@ import {useState} from 'react'
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
-const useFetchPropertyEdit = (property) => {
+const useFetchPropertyEdit = (property,id) => {
     const [isEditMode, setIsEditMode] = useState(false);
     const [editedProperty, setEditedProperty] = useState(property);
     const URL_API = process.env.REACT_APP_API_URL;   
@@ -32,7 +32,7 @@ const useFetchPropertyEdit = (property) => {
             cancelButtonText: 'No, volver',
         }).then((result) => {
             if (result.isConfirmed) {
-            fetch(`${URL_API}/property/update/${property.id}`, {
+            fetch(`${URL_API}/property/update/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
