@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import './Details.css';
 import Navbar from '../../components/Navbar/Navbar';
 import { useFetchGetProperty } from '../../hooks/useFetchProperty';
-import Swal from 'sweetalert2';
+import useFetchPropertyDelete from '../../hooks/useFetchPropertyDelete';
 import Map from '../Map/Map';
 import useFetchPropertyEdit  from '../../hooks/useFetchPropertyEdit';
 
@@ -12,44 +12,7 @@ const Details = () => {
   const [address, setAddress] = useState(null);
   const { property, addressProperty } = useFetchGetProperty(id);
   const { isEditMode, editedProperty, handleChange, handleEdit, handleComeBack, handleSubmit } = useFetchPropertyEdit(property,id);
-  
-
-  const handleDelete = () => {
-    Swal.fire({
-      title: 'Eliminar Propiedad',
-      text: '¿Está seguro de eliminar esta propiedad?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'No, volver',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        fetch(`http://localhost:8080/api/v1/property/deleteproperty/${id}`, { method: 'DELETE' })
-          .then((res) => {
-            if (res.ok) {
-              Swal.fire({
-                title: 'Eliminar propiedad',
-                text: 'Propiedad eliminada exitosamente',
-                icon: 'success',
-              });
-            } else {
-              throw new Error('Error al eliminar la propiedad');
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-            Swal.fire({
-              title: 'Eliminar propiedad',
-              text: 'Ha ocurrido un error. No se pudo eliminar esta propiedad',
-              icon: 'error',
-            });
-          });
-      }
-    });
-  };
-  
+  const { handleDelete } = useFetchPropertyDelete(id);
 
   useEffect(() => {
     if(addressProperty !== null && addressProperty !== undefined){
