@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 const URL_API = process.env.REACT_APP_API_URL;
 
-useFetchGetProperty = (id) => {
+export const useFetchGetProperty = (id) => {
 
   const [property, setProperty] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
