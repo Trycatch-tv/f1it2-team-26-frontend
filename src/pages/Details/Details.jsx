@@ -19,7 +19,7 @@ const Details = () => {
     if(addressProperty !== null && addressProperty !== undefined){
       searchLocation(addressProperty);
     }
-  },[addressProperty])
+  },[addressProperty,searchLocation])
 
   
   return (
