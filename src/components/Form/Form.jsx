@@ -47,7 +47,7 @@ const Form = () => {
 
   const onValidate = (form) => {
     const errors = {};
-    const requiredFields = [ "name","type","sale","state","address","city","area","price","characteristics","description","image"];
+    const requiredFields = [ "name","type","sale","state","address","city","area","price","characteristics","description"];
 
     requiredFields.forEach((field) => {
       if (!form[field].trim()) {
