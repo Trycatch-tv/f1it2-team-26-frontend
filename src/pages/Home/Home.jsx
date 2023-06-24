@@ -4,6 +4,7 @@ import './Home.css';
 import Navbar from '../../components/Navbar/Navbar';
 import Form from '../../components/Form/Form';
 import { useFetchListProperties } from '../../hooks/useFetchProperties';
+import Team from '../../components/Team/Team';
 
 const Home = () => {
   const [showForm, setShowForm] = useState(false);
@@ -88,6 +89,7 @@ const Home = () => {
             </p>
           </Link>
         ))}
+        <Team />
       </div>
     </>
   );
