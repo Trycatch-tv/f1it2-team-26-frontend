@@ -1,8 +1,6 @@
-import { useState } from "react";
-import Swal from "sweetalert2";
-const URL_API = process.env.REACT_APP_API_URL;
+import { useEffect, useState } from "react";
 
-const useForm = (initialData, onValidate) => {
+const useForm = (initialData ={}) => {
   const [form, setForm] = useState(initialData);
   const [errors, setErrors] = useState({});
 
@@ -17,63 +15,32 @@ const useForm = (initialData, onValidate) => {
       });
     }
   };
-
-  const submitForm = () => {
+  
+  
+  useEffect(() => {
     const validationErrors = onValidate(form);
-    if (validationErrors === null) {
-      const formData = {
-        property_name: form.name,
-        property_type: form.type,
-        property_sale: form.sale,
-        state: form.state,
-        address: form.address,
-        city: form.city,
-        area_size: form.area,
-        price: form.price,
-        characteristics: form.characteristics,
-        description: form.description,
-        image: form.image,
-      };
-  
-      fetch(`${URL_API}/property/create`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          Swal.fire({
-            title: 'Agregar propiedad',
-            text: 'Propiedad agregada exitosamente',
-            icon: 'success',
-          }).then(() => {
-            window.location.reload();
-          }
-          );
-        })
-        .catch((err) => {
-          const errorMessage = err.response ? err.response.data.message : 'No se pudo agregar la propiedad';
-          Swal.fire({
-            title: 'Agregar propiedad',
-            text: errorMessage,
-            icon: 'error',
-          })
-        });
-    } else {
-      setErrors(validationErrors);
-    }
-  };
+    if(validationErrors !== null) setErrors(validationErrors);
+  }, [form])
   
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    submitForm();
+  const onValidate = (form) => {
+    const errors = {};
+    
+    Object.keys(form).forEach((field) => {
+      if (!form[field].trim()) {
+        errors[field] = `El campo no debe estar vacío`;
+      } 
+    });
+    
+    return Object.keys(errors).length > 0 ? errors : null;
   };
 
-  return { form, errors, handleChange, handleSubmit };
+  const onResetForm = () => {
+    setForm(initialData);
+  }
+
+
+  return { form, errors, handleChange, onResetForm };
 };
 
 export default useForm;

@@ -14,7 +14,7 @@ export const useFetchListProperties = () => {
         setIsLoading(false);
       })
       .catch(err => err)
-  }, []);
+  }, [properties]);
 
   return {
     properties,

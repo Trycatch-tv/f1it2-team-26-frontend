@@ -9,6 +9,7 @@ import Team from '../../components/Team/Team';
 const Home = () => {
   const [showForm, setShowForm] = useState(false);
   const [showFilterButtons, setShowFilterButtons] = useState(false);
+  const [createButtonText, setCreateButtonText] = useState('Crear');
   const [filterStatus, setFilterStatus] = useState('');
   const [searchValue, setSearchValue] = useState('');
   const [showAllProperties, setShowAllProperties] = useState(true);
@@ -36,6 +37,11 @@ const Home = () => {
     setShowForm(!showForm);
   };
 
+  const handleShowForm = () => {
+    changeShowForm();
+    setCreateButtonText(createButtonText === 'Crear' ? 'Cerrar' : 'Crear');
+  };
+
   const filteredProperties = showAllProperties
     ? properties
     : properties.filter((property) => {
@@ -49,8 +55,8 @@ const Home = () => {
 
   return (
     <>
-      <Navbar isBtnCreateVisible={true} changeShowForm={changeShowForm} />
-      {showForm && <Form />}
+      <Navbar isBtnCreateVisible={true} handleShowForm={handleShowForm} createButtonText={createButtonText} />
+      {showForm && <Form handleShowForm={handleShowForm} />}
       <div className="filter-buttons">
         <button onClick={handleToggleFilterButtons}>Filtrar</button>
         {showFilterButtons && (

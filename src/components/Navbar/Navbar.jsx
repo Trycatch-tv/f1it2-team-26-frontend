@@ -1,15 +1,10 @@
-import React,{useState} from 'react'
 import './Navbar.css'
 import { useNavigate } from 'react-router-dom';
 
 
-const Navbar = ({isBtnCreateVisible, isBtnReturnVisble, changeShowForm}) => {
+const Navbar = ({isBtnCreateVisible, isBtnReturnVisble, createButtonText, handleShowForm}) => {
   const history = useNavigate();
-  const [createButtonText, setCreateButtonText] = useState('Crear');
-  const handleShowForm = () => {
-    changeShowForm();
-    setCreateButtonText(createButtonText === 'Crear' ? 'Cerrar' : 'Crear');
-  };
+  
   return (
     <div className='navbar-container'>
     <h1 className='navbar-title'>
