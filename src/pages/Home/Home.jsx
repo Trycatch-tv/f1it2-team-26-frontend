@@ -3,17 +3,16 @@ import { Link } from 'react-router-dom';
 import './Home.css';
 import Navbar from '../../components/Navbar/Navbar';
 import Form from '../../components/Form/Form';
-import { useFetchListProperties } from '../../hooks/useFetchProperties';
 import Team from '../../components/Team/Team';
+import { useFetchProperties } from '../../hooks/property';
 
 const Home = () => {
   const [showForm, setShowForm] = useState(false);
   const [showFilterButtons, setShowFilterButtons] = useState(false);
-  const [createButtonText, setCreateButtonText] = useState('Crear');
   const [filterStatus, setFilterStatus] = useState('');
   const [searchValue, setSearchValue] = useState('');
   const [showAllProperties, setShowAllProperties] = useState(true);
-  const { properties} = useFetchListProperties();
+  const { properties } = useFetchProperties();
 
   const handleFilterStatus = (status) => {
     if (status === filterStatus) {
@@ -37,11 +36,7 @@ const Home = () => {
     setShowForm(!showForm);
   };
 
-  const handleShowForm = () => {
-    changeShowForm();
-    setCreateButtonText(createButtonText === 'Crear' ? 'Cerrar' : 'Crear');
-  };
-
+  
   const filteredProperties = showAllProperties
     ? properties
     : properties.filter((property) => {
@@ -53,10 +48,11 @@ const Home = () => {
     property.property_name.toLowerCase().includes(searchValue.toLowerCase())
   );
 
+
   return (
     <>
-      <Navbar isBtnCreateVisible={true} handleShowForm={handleShowForm} createButtonText={createButtonText} />
-      {showForm && <Form handleShowForm={handleShowForm} />}
+      <Navbar isBtnCreateVisible={true} changeShowForm={changeShowForm} />
+      {showForm && <Form />}
       <div className="filter-buttons">
         <button onClick={handleToggleFilterButtons}>Filtrar</button>
         {showFilterButtons && (
@@ -77,10 +73,10 @@ const Home = () => {
         <input type="text" placeholder="Buscar por nombre" value={searchValue} onChange={handleSearch} />
       </div>
       <div className="property-container">
-        {filteredPropertiesBySearch.map((property) => (
+        {filteredPropertiesBySearch.sort((a, b) => b.property_id - a.property_id).map((property) => (
           <Link
             className="property-card"
-            to={`/details/${property.property_id}?name=${property.property_name}`}
+            to={`/details/${property.property_id}`}
             key={property.property_id}
           >
             <div className="property-image--container">

@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import { propertyApi } from "../api/properyApi";
+import { propertyApi } from "../../api/propertyApi";
 const { REACT_APP_API_URL } = propertyApi();
 
 const useFetchPropertyCreate = () => {
@@ -26,13 +26,12 @@ const useFetchPropertyCreate = () => {
       body: JSON.stringify(formData),
     })
       .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
+      .then(() => {
         Swal.fire({
           title: "Agregar propiedad",
           text: "Propiedad agregada exitosamente",
           icon: "success",
-        });
+        }).then(() => window.location.reload());
       })
       .catch((err) => {
         const errorMessage = err.response

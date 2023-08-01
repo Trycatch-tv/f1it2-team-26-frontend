@@ -4,7 +4,6 @@ const useForm = (initialData ={}) => {
   const [form, setForm] = useState(initialData);
   const [errors, setErrors] = useState({});
 
-
   const handleChange = ({ target: { name, value } }) => {
     setForm({ ...form, [name]: value });
     if (errors[name]) {
@@ -16,20 +15,22 @@ const useForm = (initialData ={}) => {
     }
   };
   
+  useEffect(() => {
+    setForm(initialData);
+  }, [initialData])
   
   useEffect(() => {
     const validationErrors = onValidate(form);
     if(validationErrors !== null) setErrors(validationErrors);
   }, [form])
   
-
   const onValidate = (form) => {
     const errors = {};
-    
-    Object.keys(form).forEach((field) => {
-      if (!form[field].trim()) {
-        errors[field] = `El campo no debe estar vacío`;
-      } 
+
+    Object.keys(form).forEach((field) => {     
+      if (!form[field]) {
+        errors[field] = `Campo obligatorio`;
+      }
     });
     
     return Object.keys(errors).length > 0 ? errors : null;
@@ -37,6 +38,7 @@ const useForm = (initialData ={}) => {
 
   const onResetForm = () => {
     setForm(initialData);
+    setErrors({});
   }
 
 

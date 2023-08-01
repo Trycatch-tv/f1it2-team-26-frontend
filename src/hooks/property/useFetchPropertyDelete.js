@@ -1,6 +1,7 @@
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
-const URL_API = process.env.REACT_APP_API_URL;
+import { propertyApi } from "../../api/propertyApi";
+const { REACT_APP_API_URL } = propertyApi();
 
 const useFetchPropertyDelete = (id) => {
   const navigate = useNavigate();
@@ -15,9 +16,9 @@ const useFetchPropertyDelete = (id) => {
           confirmButtonText: 'Sí, eliminar',
           cancelButtonColor: '#d33',
           cancelButtonText: 'No, volver',
-        }).then((result) => {
+        }).then(async(result) => {
           if (result.isConfirmed) {
-            fetch(`${URL_API}/property/deleteproperty/${id}`, { method: 'DELETE' })
+           await fetch(`${REACT_APP_API_URL}/property/deleteproperty/${id}`, { method: 'DELETE' })
               .then((res) => {
                 if (res.ok) {
                   Swal.fire({

@@ -2,24 +2,36 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './Details.css';
 import Navbar from '../../components/Navbar/Navbar';
-import { useFetchGetProperty } from '../../hooks/useFetchProperty';
-import useFetchPropertyDelete from '../../hooks/useFetchPropertyDelete';
 import Map from '../Map/Map';
-import useFetchPropertyEdit from '../../hooks/useFetchPropertyEdit';
 import useFetchMap from '../../hooks/useFecthMap';
+import useForm from '../../hooks/useForm';
+import { useFetchProperty } from '../../hooks/property';
+import useFetchPropertyDelete from '../../hooks/property/useFetchPropertyDelete';
+import useFetchPropertyEdit from '../../hooks/property/useFetchPropertyEdit';
+
 
 const Details = () => {
   const { id } = useParams();
-  const { property, addressProperty } = useFetchGetProperty(id);
-  const { isEditMode, editedProperty, handleChange, handleEdit, handleComeBack, handleSubmit } = useFetchPropertyEdit(property, id);
+  const { property, addressProperty} = useFetchProperty(id);
+  const { isEditMode, editedProperty, handleEdit, handleComeBack, submitForm} = useFetchPropertyEdit(property,id);
   const { handleDelete } = useFetchPropertyDelete(id);
   const { searchLocation, handleUbication, address } = useFetchMap();
+  const { form , errors ,handleChange, onResetForm } = useForm(editedProperty);
 
   useEffect(() => {
-    if (addressProperty) {
-      searchLocation(addressProperty);
-    }
+    if (!addressProperty) return;
+    searchLocation(addressProperty);
   }, [addressProperty]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    submitForm(form);
+  };
+
+  const handleCancel = () =>{
+    handleComeBack();
+    onResetForm();
+  }
 
   return (
     <>
@@ -47,7 +59,7 @@ const Details = () => {
                 <input
                   type="text"
                   name="property_name"
-                  value={editedProperty.property_name}
+                  value={form.property_name}
                   onChange={handleChange}
                   placeholder={property.property_name}
                   required
@@ -55,11 +67,14 @@ const Details = () => {
               ) : (
                 <p>{property.property_name}</p>
               )}
+              { isEditMode && errors.property_name && (
+                <span className="form-validation">{errors.property_name}</span>
+              )}
             </div>
             <div className="detail-content">
               <label>Tipo:</label>
               {isEditMode ? (
-                <select className="option" id="type" name="property_type" value={editedProperty.property_type} onChange={handleChange} required>
+                <select className="option" id="type" name="property_type" value={form.property_type} onChange={handleChange} required>
                   <option value="" disabled>
                     Seleccione un tipo de propiedad
                   </option>
@@ -69,11 +84,14 @@ const Details = () => {
               ) : (
                 <p>{property.property_type}</p>
               )}
+               { isEditMode && errors.property_type && (
+                <span className="form-validation">{errors.property_type}</span>
+              )}
             </div>
             <div className="detail-content">
               <label>Estado:</label>
               {isEditMode ? (
-                <select className="option" id="sale" name="property_sale" value={editedProperty.property_sale} onChange={handleChange} required>
+                <select className="option" id="sale" name="property_sale" value={form.property_sale} onChange={handleChange} required>
                   <option value="" disabled>
                     Seleccione el tipo de operacion
                   </option>
@@ -83,11 +101,14 @@ const Details = () => {
               ) : (
                 <p>{property.property_sale === 'venta' ? 'En venta' : 'Arrendamiento'}</p>
               )}
+               { isEditMode && errors.property_sale && (
+                <span className="form-validation">{errors.property_sale}</span>
+              )}
             </div>
             <div className="detail-content">
               <label>Proceso:</label>
               {isEditMode ? (
-                <select className="option" id="state" name="state" value={editedProperty.state} onChange={handleChange} required>
+                <select className="option" id="state" name="state" value={form.state} onChange={handleChange} required>
                   <option value="" disabled>
                     Seleccione un estado
                   </option>
@@ -97,6 +118,9 @@ const Details = () => {
               ) : (
                 <p>{property.state === 'activa' ? 'Disponible' : 'No disponible'}</p>
               )}
+               { isEditMode && errors.state && (
+                <span className="form-validation">{errors.state}</span>
+              )}
             </div>
             <div className="detail-content">
               <label>Dirección:</label>
@@ -104,13 +128,16 @@ const Details = () => {
                 <input
                   type="text"
                   name="address"
-                  value={editedProperty.address}
+                  value={form.address}
                   onChange={handleChange}
                   placeholder={property.address}
                   required
                 />
               ) : (
                 <p>{property.address}</p>
+              )}
+               { isEditMode && errors.address && (
+                <span className="form-validation">{errors.address}</span>
               )}
             </div>
             <div className="detail-content">
@@ -119,13 +146,16 @@ const Details = () => {
                 <input
                   type="text"
                   name="city"
-                  value={editedProperty.city}
+                  value={form.city}
                   onChange={handleChange}
                   placeholder={property.city}
                   required
                 />
               ) : (
                 <p>{property.city}</p>
+              )}
+               { isEditMode && errors.city && (
+                <span className="form-validation">{errors.city}</span>
               )}
             </div>
             <div className="detail-content">
@@ -134,13 +164,16 @@ const Details = () => {
                 <input
                   type="text"
                   name="area_size"
-                  value={editedProperty.area_size}
+                  value={form.area_size}
                   onChange={handleChange}
                   placeholder={property.area_size}
                   required
                 />
               ) : (
                 <p>{property.area_size} mt2</p>
+              )}
+               { isEditMode && errors.area_size && (
+                <span className="form-validation">{errors.area_size}</span>
               )}
             </div>
             <div className="detail-content">
@@ -149,12 +182,15 @@ const Details = () => {
                 <input
                   type="text"
                   name="price"
-                  value={editedProperty.price}
+                  value={form.price}
                   onChange={handleChange}
                   placeholder={property.price}
                 />
               ) : (
                 <p>{property.price} $</p>
+              )}
+               { isEditMode && errors.price && (
+                <span className="form-validation">{errors.price}</span>
               )}
             </div>
             <div className="detail-content">
@@ -163,13 +199,16 @@ const Details = () => {
                 <input
                   type="text"
                   name="characteristics"
-                  value={editedProperty.characteristics}
+                  value={form.characteristics}
                   onChange={handleChange}
                   placeholder={property.characteristics}
                   required
                 />
               ) : (
                 <p>{property.characteristics}</p>
+              )}
+               { isEditMode && errors.characteristics && (
+                <span className="form-validation">{errors.characteristics}</span>
               )}
             </div>
             <div className="detail-content">
@@ -178,7 +217,7 @@ const Details = () => {
                 <input
                   type="text"
                   name="description"
-                  value={editedProperty.description}
+                  value={form.description}
                   onChange={handleChange}
                   placeholder={property.description}
                   required
@@ -186,11 +225,14 @@ const Details = () => {
               ) : (
                 <p>{property.description}</p>
               )}
+               { isEditMode && errors.description && (
+                <span className="form-validation">{errors.description}</span>
+              )}
             </div>
           </div>
           <div className="details-card-buttons">
             {isEditMode ? (
-              <button className="details-card-save" onClick={handleSubmit}>
+              <button className={Object.keys(errors).length > 0 ? 'details-card-save--deshabilitated' : 'details-card-save'} onClick={handleSubmit} disabled={Object.keys(errors).length > 0} >
                 Guardar
               </button>
             ) : (
@@ -199,7 +241,7 @@ const Details = () => {
               </button>
             )}
             {isEditMode ? (
-              <button className="details-card-delete" onClick={handleComeBack}>
+              <button className="details-card-delete" onClick={handleCancel}>
                 Cancelar
               </button>
             ) : (

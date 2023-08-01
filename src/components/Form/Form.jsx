@@ -4,7 +4,8 @@ import "./Form.css";
 import { storage } from "../../firebase";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { v4 } from "uuid";
-import useFetchPropertyCreate from "../../hooks/useFetchPropertyCreate";
+import useFetchPropertyCreate from "../../hooks/property/useFetchPropertyCreate";
+
 
 const property = {
   name: "",
@@ -21,7 +22,7 @@ const property = {
 };
 
 
-const Form = ({handleShowForm}) => {
+const Form = () => {
   const [imagePreview, setImagePreview] = useState("");
   const [secret] = useState(v4);
   const { form, errors, handleChange } = useForm(property);
@@ -52,7 +53,6 @@ const Form = ({handleShowForm}) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     submitForm(form);
-    handleShowForm();
   };
   
   return (

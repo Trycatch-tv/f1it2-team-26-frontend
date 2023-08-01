@@ -1,26 +1,33 @@
 import { useEffect, useState } from 'react';
-const URL_API = process.env.REACT_APP_API_URL;
+import { propertyApi } from "../../api/propertyApi";
+const { REACT_APP_API_URL } = propertyApi();
 
-export const useFetchGetProperty = (id) => {
+export const useFetchProperty = (id) => {
 
   const [property, setProperty] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [addressProperty, setAdressProperty] = useState(null);
-  
+  const [error, setError] = useState(null);
+
 	useEffect(() => {
-    fetch(`${URL_API}/property/${id}`)
+    fetch(`${REACT_APP_API_URL}/property/${id}`)
     .then(res => res.json())
     .then(data => {
       setAdressProperty(data.address);
       setProperty(data);
       setIsLoading();
     })
-    .catch(err => err);
+    .catch(error => {
+      setError(error);
+      setIsLoading(false);
+    })
+  
 	},[id]);
   
   return{
     property,
     isLoading,
-    addressProperty
+    addressProperty,
+    error
   };
 }
