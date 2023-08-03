@@ -102,6 +102,17 @@
     background-color: var(--color-bg-variant);
     color: #132326;
   }
+
+  .team--link {
+    text-decoration: none; 
+    color: #132326; 
+    cursor: auto;
+  }
+
+  .team--link:hover {
+    cursor: pointer;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
   
   
   @media (max-width: 768px) {

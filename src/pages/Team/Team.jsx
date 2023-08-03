@@ -17,6 +17,7 @@ import JEFFERSON from '../../assets/fotos/Jefferson_Panchi.jpeg'
 import LUIS from '../../assets/fotos/Luis_Orellana.jpeg'
 import OVIDIO from '../../assets/fotos/Ovidio_Romero.jpeg'
 import SEBASTIAN from '../../assets/fotos/Sebastian_Tafur.jpeg'
+import Navbar from '../../components/Navbar/Navbar';
 
 const data = [
     {
@@ -93,6 +94,8 @@ const data = [
 
 const Team = () => {
   return (
+    <>
+    <Navbar isBtnReturnVisble={true} />
     <div className='container-team'>
         <h5>Conoce a nuestro</h5>
         <h2>Equipo</h2>
@@ -119,6 +122,8 @@ const Team = () => {
             ))}
         </Swiper>
     </div>
+    </>
+    
   )
 }
 

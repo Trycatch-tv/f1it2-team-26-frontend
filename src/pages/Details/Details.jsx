@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import './Details.css';
 import Navbar from '../../components/Navbar/Navbar';
 import Map from '../Map/Map';
@@ -7,11 +7,12 @@ import useForm from '../../hooks/useForm';
 import { useFetchProperty } from '../../hooks/property';
 import useFetchPropertyDelete from '../../hooks/property/useFetchPropertyDelete';
 import useFetchPropertyEdit from '../../hooks/property/useFetchPropertyEdit';
+import ContentLoader from 'react-content-loader';
 
 
 const Details = () => {
   const { id } = useParams();
-  const { property } = useFetchProperty(id);
+  const { property, isLoading } = useFetchProperty(id);
   const { isEditMode, editedProperty, handleEdit, handleComeBack, submitForm} = useFetchPropertyEdit(property,id);
   const { handleDelete } = useFetchPropertyDelete(id);
   const { address, isLoadingMap, handleUbication } = useFetchMap(property);
@@ -27,10 +28,24 @@ const Details = () => {
     onResetForm();
   }
 
+  if(!property.property_name && !isLoading){
+    return <Navigate to="/"/>
+  }
+  
   return (
     <>
       <Navbar isBtnReturnVisble={true} />
+     
       <div className="details-container">
+        {
+          isLoading && (
+            <ContentLoader viewBox="0 0 480 240">
+              <rect x="110" y="40" rx="2" ry="24" width="100" height="100" />
+              <rect x="240" y="40" rx="2" ry="2" width="140" height="100" />
+              <rect x="180" y="160" rx="5" ry="5" width="100" height="80" />
+            </ContentLoader>
+          )
+        }
         <div className="details-card">
           <h1>{property.property_name}</h1>
           <div className="details-header">
