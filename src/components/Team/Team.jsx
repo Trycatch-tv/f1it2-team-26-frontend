@@ -107,7 +107,7 @@ const Team = () => {
             {data.map((item) => (
                 <SwiperSlide key={item.id}>
                 <div className='team_avatar'>
-                <img src={item.img}/>
+                <img src={item.img} alt={item.name}/>
                 <h3 className='team_name'>{item.name}</h3>
                 <h4 className='team_position'>{item.position}</h4>
                 <div className="team_social">

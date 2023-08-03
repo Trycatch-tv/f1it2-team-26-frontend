@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './Details.css';
 import Navbar from '../../components/Navbar/Navbar';
@@ -12,16 +11,11 @@ import useFetchPropertyEdit from '../../hooks/property/useFetchPropertyEdit';
 
 const Details = () => {
   const { id } = useParams();
-  const { property, addressProperty} = useFetchProperty(id);
+  const { property } = useFetchProperty(id);
   const { isEditMode, editedProperty, handleEdit, handleComeBack, submitForm} = useFetchPropertyEdit(property,id);
   const { handleDelete } = useFetchPropertyDelete(id);
-  const { searchLocation, handleUbication, address } = useFetchMap();
-  const { form , errors ,handleChange, onResetForm } = useForm(editedProperty);
-
-  useEffect(() => {
-    if (!addressProperty) return;
-    searchLocation(addressProperty);
-  }, [addressProperty]);
+  const { address, isLoadingMap, handleUbication } = useFetchMap(property);
+  const { form , errors, handleChange, onResetForm } = useForm(editedProperty);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -44,8 +38,8 @@ const Details = () => {
               <img src={property.image} alt={property.property_name} />
             </div>
             <div className="details-card-map">
-              {address && <Map latitude={address.lat} longitude={address.lon} />}
-              {address && (
+              { address && !isLoadingMap && <Map latitude={address.lat} longitude={address.lon} />}
+              { address && !isLoadingMap && (
                 <button className="btn-ubication" onClick={handleUbication}>
                   Como llegar
                 </button>

@@ -5,6 +5,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import Form from '../../components/Form/Form';
 import Team from '../../components/Team/Team';
 import { useFetchProperties } from '../../hooks/property';
+import ContentLoader from 'react-content-loader';
 
 const Home = () => {
   const [showForm, setShowForm] = useState(false);
@@ -12,7 +13,7 @@ const Home = () => {
   const [filterStatus, setFilterStatus] = useState('');
   const [searchValue, setSearchValue] = useState('');
   const [showAllProperties, setShowAllProperties] = useState(true);
-  const { properties } = useFetchProperties();
+  const { properties, isLoading } = useFetchProperties();
 
   const handleFilterStatus = (status) => {
     if (status === filterStatus) {
@@ -73,6 +74,16 @@ const Home = () => {
         <input type="text" placeholder="Buscar por nombre" value={searchValue} onChange={handleSearch} />
       </div>
       <div className="property-container">
+        { isLoading && (
+          <ContentLoader viewBox="0 0 480 240">
+          <rect x="60" y="40" rx="2" ry="24" width="160" height="100" />
+          <rect x="240" y="40" rx="2" ry="2" width="160" height="100" />
+          <rect x="60" y="160" rx="2" ry="24" width="160" height="100" />
+          <rect x="240" y="160" rx="2" ry="2" width="160" height="100" />
+          
+        </ContentLoader>
+        )
+        }
         {filteredPropertiesBySearch.sort((a, b) => b.property_id - a.property_id).map((property) => (
           <Link
             className="property-card"
