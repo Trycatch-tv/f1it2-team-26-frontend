@@ -21,7 +21,7 @@ const useFetchPropertyEdit = (property,id) => {
         setIsEditMode(false);
     };
 
-    const submitForm = (form) => {
+    const submitForm = (form,getProperty) => {
         
         Swal.fire({
             title: 'Editar Propiedad',
@@ -47,7 +47,9 @@ const useFetchPropertyEdit = (property,id) => {
                     title: 'Editar propiedad',
                     text: 'Propiedad editada exitosamente',
                     icon: 'success',
-                }).then(() => window.location.reload());
+                }).then(() => {
+                    getProperty(id);
+                });
                 })
                 .catch(
                 Swal.fire({

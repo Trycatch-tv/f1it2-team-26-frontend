@@ -28,10 +28,15 @@ export const useUploadFile = () => {
     }
   };
 
+  const onResetPreview = () =>{
+    setImagePreview("");
+  }
+
   return {
     imagePreview,
 
     uploadFile,
-    saveFile
+    saveFile,
+    onResetPreview
   };
 };

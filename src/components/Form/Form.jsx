@@ -20,11 +20,11 @@ const property = {
   image: "",
 };
 
-const Form = () => {
-  const [secret] = useState(v4);
-  const { form, errors, handleChange } = useForm(property);
+const Form = ({getAllProperties}) => {
+  const [secret, setSecret] = useState(v4);
+  const { form, errors, handleChange, onResetForm } = useForm(property);
   const { submitForm, isLoadingSaveCreate } = useFetchPropertyCreate();
-  const { imagePreview, uploadFile } = useUploadFile();
+  const { imagePreview, uploadFile, onResetPreview} = useUploadFile();
   const imageInputRef = useRef(null);
 
   const handleImageChange = (e) => {
@@ -35,7 +35,10 @@ const Form = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    submitForm(form, imageInputRef, secret);
+    submitForm(form, imageInputRef, secret, getAllProperties);
+    onResetForm();
+    onResetPreview();
+    setSecret(v4);
   };
 
   if (isLoadingSaveCreate) {

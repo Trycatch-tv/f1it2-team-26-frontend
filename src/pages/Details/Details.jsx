@@ -12,7 +12,7 @@ import ContentLoader from 'react-content-loader';
 
 const Details = () => {
   const { id } = useParams();
-  const { property, isLoading } = useFetchProperty(id);
+  const { property, isLoading, getProperty } = useFetchProperty(id);
   const { isEditMode, editedProperty, handleEdit, handleComeBack, submitForm} = useFetchPropertyEdit(property,id);
   const { handleDelete } = useFetchPropertyDelete(id);
   const { address, isLoadingMap, handleUbication } = useFetchMap(property);
@@ -20,7 +20,8 @@ const Details = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    submitForm(form);
+    submitForm(form, getProperty);
+    handleComeBack();
   };
 
   const handleCancel = () =>{

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Home.css';
 import Navbar from '../../components/Navbar/Navbar';
@@ -12,7 +12,13 @@ const Home = () => {
   const [filterStatus, setFilterStatus] = useState('');
   const [searchValue, setSearchValue] = useState('');
   const [showAllProperties, setShowAllProperties] = useState(true);
-  const { properties, isLoading } = useFetchProperties();
+  const { isLoading, data, getAllProperties } = useFetchProperties();
+  const [properties, setProperties] = useState([]);
+
+  useEffect(()=> {
+    setProperties(data);
+  }, [data])
+
 
   const handleFilterStatus = (status) => {
     if (status === filterStatus) {
@@ -52,7 +58,7 @@ const Home = () => {
   return (
     <>
       <Navbar isBtnCreateVisible={true} changeShowForm={changeShowForm} />
-      {showForm && <Form />}
+      {showForm && <Form getAllProperties={getAllProperties}/>}
       <div className="filter-buttons">
         <button onClick={handleToggleFilterButtons}>Filtrar</button>
         {showFilterButtons && (

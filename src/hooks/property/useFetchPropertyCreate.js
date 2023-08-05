@@ -2,14 +2,19 @@ import Swal from "sweetalert2";
 import { propertyApi } from "../../api/propertyApi";
 import { useUploadFile } from "../useUploadFile";
 import { useState } from "react";
+
+
 const { REACT_APP_API_URL } = propertyApi();
 
 const useFetchPropertyCreate = () => {
   const {saveFile} = useUploadFile();
   const [isLoadingSaveCreate, setIsLoadingSaveCreate] = useState(false);
+  
+  
 
-  const submitForm = async (form, imageInputRef, secret) => {
+  const submitForm = async (form, imageInputRef, secret, getAllProperties) => {
     setIsLoadingSaveCreate(true);
+    
     const file = imageInputRef.current.files[0];
     const urlImage = await saveFile(file,secret);
 
@@ -42,7 +47,8 @@ const useFetchPropertyCreate = () => {
           text: "Propiedad agregada exitosamente",
           icon: "success",
         }).then(() => {
-          window.location.reload();
+          getAllProperties();
+          setIsLoadingSaveCreate(false);
         });
       })
       .catch((err) => {

@@ -9,6 +9,10 @@ export const useFetchProperty = (id) => {
   const [error, setError] = useState(null);
 
 	useEffect(() => {
+    getProperty(id);
+	},[id]);
+
+  const getProperty = (id) => {
     fetch(`${REACT_APP_API_URL}/property/${id}`)
     .then(res => res.json())
     .then(data => {
@@ -19,12 +23,13 @@ export const useFetchProperty = (id) => {
       setError(error);
       setIsLoading(false);
     })
-  
-	},[id]);
+  }
   
   return{
     property,
     isLoading,
-    error
+    error,
+
+    getProperty
   };
 }
