@@ -51,12 +51,13 @@ const useFetchPropertyEdit = (property,id) => {
                     getProperty(id);
                 });
                 })
-                .catch(
-                Swal.fire({
-                    title: 'Editar propiedad',
-                    text: 'Ha ocurrido un error, No se pudo editar esta propiedad',
-                    icon: 'error',
-                }),
+                .catch(() => {
+                    Swal.fire({
+                        title: 'Editar propiedad',
+                        text: 'Ha ocurrido un error, No se pudo editar esta propiedad',
+                        icon: 'error',
+                    })
+                }
               );
           }
         });
